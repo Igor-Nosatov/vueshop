@@ -14,8 +14,12 @@ class CreateTableWishlist extends Migration
     public function up()
     {
         Schema::create('wishlist', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->timestamps();
+          $table->increments('id');
+          $table->string('name')->nullable();
+          $table->string('image')->nullable();
+          $table->integer('price')->nullable();
+          $table->integer('qty')->nullable();
+          $table->timestamps();
         });
     }
 

@@ -14,8 +14,20 @@ class CreateTableCheckout extends Migration
     public function up()
     {
         Schema::create('checkout', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->timestamps();
+          $table->increments('id');
+          $table->string('firstname')->nullable();
+          $table->string('lastname')->nullable();
+          $table->string('company')->nullable();
+          $table->string('phone')->nullable();
+          $table->string('email')->nullable();
+          $table->string('country')->nullable();
+          $table->string('adressone')->nullable();
+          $table->string('adresstwo')->nullable();
+          $table->string('city')->nullable();
+          $table->string('district')->nullable();
+          $table->string('postcode')->nullable();
+          $table->integer('total')->nullable();
+          $table->timestamps();
         });
     }
 
