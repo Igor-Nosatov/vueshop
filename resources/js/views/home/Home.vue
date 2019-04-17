@@ -1,8 +1,86 @@
 <template>
-<div  class="main-block">
-    <section class="banner-area">
-        <banner></banner>
-    </section>
+<div  class="main-block mt-5 pt-5">
+<section class="banner-area">
+       <div class="container">
+           <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+               <ol class="carousel-indicators">
+                   <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                   <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                   <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+               </ol>
+               <div class="carousel-inner">
+                   <div class="carousel-item active">
+                       <div class="row single-slide align-items-center d-flex">
+                           <div class="col-lg-5 col-md-6">
+                               <div class="banner-content">
+                                   <h1>Nike New <br>Collection!</h1>
+                                   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                                       dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+                                   <div class="add-bag d-flex align-items-center">
+                                       <a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
+                                       <span class="add-text text-uppercase">Add to Bag</span>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="col-lg-7">
+                               <div class="banner-img">
+                                   <img class="img-fluid w-75" src="img/banner/banner-img.png" alt="">
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+                   <div class="carousel-item">
+                       <div class="row single-slide align-items-center d-flex">
+                           <div class="col-lg-5 col-md-6">
+                               <div class="banner-content">
+                                   <h1>Nike New <br>Collection!</h1>
+                                   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                                       dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+                                   <div class="add-bag d-flex align-items-center">
+                                       <a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
+                                       <span class="add-text text-uppercase">Add to Bag</span>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="col-lg-7">
+                               <div class="banner-img">
+                                   <img class="img-fluid  w-75" src="img/banner/banner-img.png" alt="">
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+                   <div class="carousel-item">
+                       <div class="row single-slide align-items-center d-flex">
+                           <div class="col-lg-5 col-md-6">
+                               <div class="banner-content">
+                                   <h1>Nike New <br>Collection!</h1>
+                                   <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                                       dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+                                   <div class="add-bag d-flex align-items-center">
+                                       <a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
+                                       <span class="add-text text-uppercase">Add to Bag</span>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="col-lg-7">
+                               <div class="banner-img">
+                                   <img class="img-fluid  w-75" src="img/banner/banner-img.png" alt="">
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+               <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                   <span class="sr-only">Previous</span>
+               </a>
+               <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                   <span class="sr-only">Next</span>
+               </a>
+           </div>
+       </div>
+   </section>
     <section class="features-area section_gap">
         <feature></feature>
     </section>
