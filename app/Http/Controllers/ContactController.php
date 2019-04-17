@@ -13,8 +13,7 @@ class ContactController extends Controller
     'name' => $request->get('name'),
     'email' => $request->get('email'),
     'subject' => $request->get('subject'),
-    'message' => $request->get('message'),
-    'user_id' => Auth::id(),
+    'message' => $request->get('message')
   ]);
 
   $contact->save();

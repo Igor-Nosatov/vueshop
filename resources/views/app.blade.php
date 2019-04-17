@@ -11,5 +11,6 @@
         <div id="app"></div>
         <script src="{{ mix('js/bootstrap.js') }}"></script>
         <script src="{{ mix('js/app.js') }}"></script>
+        <link href=" {{ mix('js/all.js') }}" rel="stylesheet">
     </body>
 </html>
