@@ -18,7 +18,6 @@ class CreateTableProducts extends Migration
           $table->string('name');
           $table->integer('price');
           $table->text('description');
-          $table->integer('old_price');
           $table->string('image');
           $table->timestamps();
           $table->unsignedInteger('category_id')->nullable();
