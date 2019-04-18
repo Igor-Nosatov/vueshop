@@ -7,8 +7,8 @@
                 <div class="col-first">
                     <h1>Shop Category page</h1>
                     <nav class="d-flex align-items-center">
-                    <router-link to="/" class="nav-link">Home<span class="lnr lnr-arrow-right"></span></router-link>
-                    <router-link to="/shop" class="nav-link">Shop</router-link>
+                        <router-link to="/" class="nav-link">Home<span class="lnr lnr-arrow-right"></span></router-link>
+                        <router-link to="/shop" class="nav-link">Shop</router-link>
                     </nav>
                 </div>
             </div>
@@ -73,18 +73,16 @@
             <div class="col-xl-9 col-lg-8 col-md-7">
                 <div class="filter-bar d-flex flex-wrap align-items-center">
                     <div class="sortAndsearch">
-                        <div>
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Sort By
-                                </button>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Sort By
+                            </button>
 
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                    <button class="dropdown-item" @click="sortProducts('price', 'asc')" type="button">low to high price</button>
-                                    <button class="dropdown-item" @click="sortProducts('price', 'desc')" type="button">high to low price</button>
-                                    <button class="dropdown-item" @click="sortProducts('name', 'asc')" type="button">sort by asc</button>
-                                    <button class="dropdown-item" @click="sortProducts('name', 'desc')" type="button">sort by desc</button>
-                                </div>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <button class="dropdown-item" @click="sortProducts('price', 'asc')" type="button">low to high price</button>
+                                <button class="dropdown-item" @click="sortProducts('price', 'desc')" type="button">high to low price</button>
+                                <button class="dropdown-item" @click="sortProducts('name', 'asc')" type="button">sort by asc</button>
+                                <button class="dropdown-item" @click="sortProducts('name', 'desc')" type="button">sort by desc</button>
                             </div>
                         </div>
                         <form class="d-flex justify-content-between">
@@ -97,38 +95,44 @@
                         </div>
                     </div>
                 </div>
+
                 <section class="lattest-product-area pb-40 category-list">
                     <div class="row">
                         <div class="col-lg-4 col-md-6" v-for="(product, index) in displayProducts" @key="index">
                             <div class="single-product">
-                                <router-link :to="{ path: '/product/'+product.id}">
-                                    <img :src="product.image" :alt="product.name" class="img-fluid">
-                                </router-link>
-                                <div class="product-details">
-                                    <h6>{{ product.name }}</h6>
-                                    <div class="price">
-                                        <h6>${{ product.price }}</h6>
-                                        <h6 class="l-through">${{ product.old_price }}</h6>
-                                        <div class="product_count">
-                                            <input type="number" min="1" max="100" v-model="product.qty" name="qty" id="sst" maxlength="12" value=""  title="Quantity:" class="input-text qty">
+
+                                    <router-link :to="{ path: '/product/'+product.id}">
+                                        <img :src="product.image" :alt="product.name" class="img-fluid">
+                                    </router-link>
+                                    <div class="product-details">
+                                        <h6>{{ product.name }}</h6>
+
+                                        <p>Quantity: <input type="number" v-model="qty" value="default" min="1" max="25" required /></p>
+                                        
+
+
+
+                                        <div class="price">
+                                            <h6>${{ product.price }}</h6>
+                                            <h6 class="l-through">${{ product.old_price }}</h6>
+                                        </div>
+                                        <div class="prd-bottom">
+                                            <a class="social-info">
+                                                <span class="ti-bag"></span>
+                                                <p class="hover-text"> <button class="add-btn" @click="addToCart(product)">Cart</button></p>
+                                            </a>
+                                            <a class="social-info">
+                                                <span class="lnr lnr-heart"></span>
+                                                <p class="hover-text"><button class="add-btn" @click="addWishlist(product)">Wishlist</button>Wishlist</p>
+                                            </a>
+
+                                            <router-link :to="{ path: '/product/'+product.id}" class="social-info">
+                                                <span class="lnr lnr-move"></span>
+                                                <p class="hover-text">view more</p>
+                                            </router-link>
                                         </div>
                                     </div>
-                                    <div class="prd-bottom">
-                                        <a class="social-info">
-                                            <span class="ti-bag"></span>
-                                            <p class="hover-text"> <button class="add-btn" @click="addToCart(product)">Cart</button></p>
-                                        </a>
-                                        <a class="social-info">
-                                            <span class="lnr lnr-heart"></span>
-                                            <p class="hover-text"><button class="add-btn" @click="addWishlist(product)">Wishlist</button>Wishlist</p>
-                                        </a>
 
-                                        <router-link :to="{ path: '/product/'+product.id}" class="social-info">
-                                            <span class="lnr lnr-move"></span>
-                                            <p class="hover-text">view more</p>
-                                        </router-link>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -184,7 +188,8 @@ export default {
             sort: '',
             minPrice: 0,
             maxPrice: 300,
-            search: ''
+            search: '',
+            errors: []
         }
     },
     methods: {
@@ -218,20 +223,20 @@ export default {
             }
         },
         addToCart(product) {
-            axios.post('/api/cart/add', {
-                name: product.name,
-                image: product.image,
-                price: product.price,
-                qty: product.qty
-            }).then(response => {
-                console.log(response)
-                this.name = ''
-                this.image = ''
-                this.price = ''
-                this.qty = ''
-            }).catch(error => {
-                console.log(error)
-            })
+                axios.post('/api/cart/add', {
+                    name: product.name,
+                    image: product.image,
+                    price: product.price,
+                    qty: product.qty
+                }).then(response => {
+                    console.log(response)
+                    this.name = ''
+                    this.image = ''
+                    this.price = ''
+                    this.qty = ''
+                }).catch(error => {
+                    console.log(error)
+                    })
         },
         addWishlist(product) {
             axios.post('/api/wishlist/add', {
@@ -248,7 +253,7 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
-        }
+      }
     },
     computed: {
         searchProducts() {

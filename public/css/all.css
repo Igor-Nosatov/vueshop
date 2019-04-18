@@ -14649,7 +14649,7 @@ label {
     padding-right: 10px; }
   .product_count input {
     width: 76px;
-    border: 1px solid #eeeeee;
+    border: 1px solid black;
     border-radius: 3px;
     padding-left: 10px; }
   .product_count button {
@@ -16465,13 +16465,14 @@ label {
 }
 .maxPrice {
     width: 80px;
-    right: 8.5px;
+    position: absolute;
+  margin-right: 95px;
 }
 input[type=range]::-moz-range-track {
     background-color: #ffff4d;
 }
 .max {
-    margin-left: 140px;
+    margin-left: 143px;
     position: absolute;
 }
 .sortAndsearch{
@@ -16489,8 +16490,6 @@ input[type=range]::-moz-range-track {
 .main-block{
   margin-bottom: 150px;
 }
-
-/*# sourceMappingURL=main.css.map */
 
 /*!
  * Bootstrap v4.1.3 (https://getbootstrap.com/)
@@ -30978,7 +30977,7 @@ label {
     padding-right: 10px; }
   .product_count input {
     width: 76px;
-    border: 1px solid #eeeeee;
+    border: 1px solid black;
     border-radius: 3px;
     padding-left: 10px; }
   .product_count button {
@@ -32794,13 +32793,14 @@ label {
 }
 .maxPrice {
     width: 80px;
-    right: 8.5px;
+    position: absolute;
+  margin-right: 95px;
 }
 input[type=range]::-moz-range-track {
     background-color: #ffff4d;
 }
 .max {
-    margin-left: 140px;
+    margin-left: 143px;
     position: absolute;
 }
 .sortAndsearch{
@@ -32818,8 +32818,6 @@ input[type=range]::-moz-range-track {
 .main-block{
   margin-bottom: 150px;
 }
-
-/*# sourceMappingURL=main.css.map */
 
 .nice-select {
   -webkit-tap-highlight-color: transparent;

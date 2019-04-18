@@ -3809,6 +3809,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     this.fetchProducts();
@@ -3827,7 +3832,8 @@ __webpack_require__.r(__webpack_exports__);
       sort: '',
       minPrice: 0,
       maxPrice: 300,
-      search: ''
+      search: '',
+      errors: []
     };
   },
   methods: {
@@ -3870,20 +3876,26 @@ __webpack_require__.r(__webpack_exports__);
     addToCart: function addToCart(product) {
       var _this2 = this;
 
-      axios.post('/api/cart/add', {
-        name: product.name,
-        image: product.image,
-        price: product.price,
-        qty: product.qty
-      }).then(function (response) {
-        console.log(response);
-        _this2.name = '';
-        _this2.image = '';
-        _this2.price = '';
-        _this2.qty = '';
-      })["catch"](function (error) {
-        console.log(error);
-      });
+      this.errors = [];
+
+      if (product.qty > 0) {
+        axios.post('/api/cart/add', {
+          name: product.name,
+          image: product.image,
+          price: product.price,
+          qty: product.qty
+        }).then(function (response) {
+          console.log(response);
+          _this2.name = '';
+          _this2.image = '';
+          _this2.price = '';
+          _this2.qty = '';
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      } else {
+        this.errors.push('Требуется указать количество товара');
+      }
     },
     addWishlist: function addWishlist(product) {
       var _this3 = this;
@@ -4363,6 +4375,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['review_product'],
   data: function data() {
@@ -4374,7 +4390,8 @@ __webpack_require__.r(__webpack_exports__);
         phone: '',
         message: ''
       },
-      rating: []
+      rating: [],
+      allrating: []
     };
   },
   methods: {
@@ -4402,12 +4419,22 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
+  computed: {
+    totalStar: function totalStar() {
+      var sum = 0;
+      this.allrating.forEach(function (e) {
+        sum += e.star;
+      });
+      return sum;
+    }
+  },
   mounted: function mounted() {
     var _this2 = this;
 
     var url = "/api/product/".concat(this.$route.params.id);
     axios.get(url).then(function (response) {
       _this2.rating = response.data.review;
+      _this2.allrating = response.data.review;
     })["catch"](function (error) {
       console.log(error);
     });
@@ -44320,92 +44347,90 @@ var render = function() {
             { staticClass: "filter-bar d-flex flex-wrap align-items-center" },
             [
               _c("div", { staticClass: "sortAndsearch" }, [
-                _c("div", [
-                  _c("div", { staticClass: "dropdown" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-secondary dropdown-toggle",
-                        attrs: {
-                          type: "button",
-                          id: "dropdownMenu2",
-                          "data-toggle": "dropdown",
-                          "aria-haspopup": "true",
-                          "aria-expanded": "false"
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n                                    Sort By\n                                "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "dropdown-menu",
-                        attrs: { "aria-labelledby": "dropdownMenu2" }
-                      },
-                      [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "dropdown-item",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                return _vm.sortProducts("price", "asc")
-                              }
+                _c("div", { staticClass: "dropdown" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-secondary dropdown-toggle",
+                      attrs: {
+                        type: "button",
+                        id: "dropdownMenu2",
+                        "data-toggle": "dropdown",
+                        "aria-haspopup": "true",
+                        "aria-expanded": "false"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                Sort By\n                            "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "dropdown-menu",
+                      attrs: { "aria-labelledby": "dropdownMenu2" }
+                    },
+                    [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "dropdown-item",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.sortProducts("price", "asc")
                             }
-                          },
-                          [_vm._v("low to high price")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "dropdown-item",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                return _vm.sortProducts("price", "desc")
-                              }
+                          }
+                        },
+                        [_vm._v("low to high price")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "dropdown-item",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.sortProducts("price", "desc")
                             }
-                          },
-                          [_vm._v("high to low price")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "dropdown-item",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                return _vm.sortProducts("name", "asc")
-                              }
+                          }
+                        },
+                        [_vm._v("high to low price")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "dropdown-item",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.sortProducts("name", "asc")
                             }
-                          },
-                          [_vm._v("sort by asc")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "dropdown-item",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function($event) {
-                                return _vm.sortProducts("name", "desc")
-                              }
+                          }
+                        },
+                        [_vm._v("sort by asc")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "dropdown-item",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.sortProducts("name", "desc")
                             }
-                          },
-                          [_vm._v("sort by desc")]
-                        )
-                      ]
-                    )
-                  ])
+                          }
+                        },
+                        [_vm._v("sort by desc")]
+                      )
+                    ]
+                  )
                 ]),
                 _vm._v(" "),
                 _c("form", { staticClass: "d-flex justify-content-between" }, [
@@ -44494,48 +44519,59 @@ var render = function() {
                           _c("div", { staticClass: "product-details" }, [
                             _c("h6", [_vm._v(_vm._s(product.name))]),
                             _vm._v(" "),
+                            _vm.errors.length
+                              ? _c("p", [
+                                  _c("b", [
+                                    _vm._v(
+                                      "Пожалуйста исправьте указанные ошибки:"
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "ul",
+                                    _vm._l(_vm.errors, function(error) {
+                                      return _c("li", [_vm._v(_vm._s(error))])
+                                    }),
+                                    0
+                                  )
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c("p", [
+                              _vm._v("Quantity: "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.qty,
+                                    expression: "qty"
+                                  }
+                                ],
+                                attrs: {
+                                  type: "number",
+                                  value: "default",
+                                  min: "1",
+                                  max: "25",
+                                  required: ""
+                                },
+                                domProps: { value: _vm.qty },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.qty = $event.target.value
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
                             _c("div", { staticClass: "price" }, [
                               _c("h6", [_vm._v("$" + _vm._s(product.price))]),
                               _vm._v(" "),
                               _c("h6", { staticClass: "l-through" }, [
                                 _vm._v("$" + _vm._s(product.old_price))
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "product_count" }, [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: product.qty,
-                                      expression: "product.qty"
-                                    }
-                                  ],
-                                  staticClass: "input-text qty",
-                                  attrs: {
-                                    type: "number",
-                                    min: "1",
-                                    max: "100",
-                                    name: "qty",
-                                    id: "sst",
-                                    maxlength: "12",
-                                    value: "",
-                                    title: "Quantity:"
-                                  },
-                                  domProps: { value: product.qty },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        product,
-                                        "qty",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                })
                               ])
                             ]),
                             _vm._v(" "),
@@ -45375,7 +45411,29 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
     _c("div", { staticClass: "col-lg-6" }, [
-      _vm._m(0),
+      _c("div", { staticClass: "row total_rate" }, [
+        _c("div", { staticClass: "col-6" }, [
+          _c("div", { staticClass: "box_total" }, [
+            _c("h5", [_vm._v("Overall")]),
+            _vm._v(" "),
+            _vm.allrating.length == 0
+              ? _c("div", [_c("h4", [_vm._v("0")])])
+              : _c("div", [
+                  _c("h4", [
+                    _vm._v(
+                      _vm._s(Math.round(_vm.totalStar / _vm.allrating.length))
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("h6", [
+                    _vm._v("(" + _vm._s(_vm.allrating.length) + " Reviews)")
+                  ])
+                ])
+          ])
+        ]),
+        _vm._v(" "),
+        _vm._m(0)
+      ]),
       _vm._v(" "),
       _c(
         "div",
@@ -45744,81 +45802,51 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row total_rate" }, [
-      _c("div", { staticClass: "col-6" }, [
-        _c("div", { staticClass: "box_total" }, [
-          _c("h5", [_vm._v("Overall")]),
-          _vm._v(" "),
-          _c("h4", [_vm._v("4.0")]),
-          _vm._v(" "),
-          _c("h6", [_vm._v("(03 Reviews)")])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-6" }, [
-        _c("div", { staticClass: "rating_list" }, [
-          _c("h3", [_vm._v("Based on 3 Reviews")]),
-          _vm._v(" "),
-          _c("ul", { staticClass: "list" }, [
-            _c("li", [
-              _c("a", [
-                _vm._v("5 Star "),
-                _c("i", { staticClass: "fa fa-star" }),
-                _c("i", { staticClass: "fa fa-star" }),
-                _c("i", { staticClass: "fa fa-star" }),
-                _c("i", { staticClass: "fa fa-star" }),
-                _c("i", { staticClass: "fa fa-star" }),
-                _vm._v(" 01")
-              ])
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("a", [
-                _vm._v("4 Star "),
-                _c("i", { staticClass: "fa fa-star" }),
-                _c("i", { staticClass: "fa fa-star" }),
-                _c("i", { staticClass: "fa fa-star" }),
-                _c("i", { staticClass: "fa fa-star" }),
-                _c("i", { staticClass: "fa fa-star" }),
-                _vm._v(" 01")
-              ])
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("a", [
-                _vm._v("3 Star "),
-                _c("i", { staticClass: "fa fa-star" }),
-                _c("i", { staticClass: "fa fa-star" }),
-                _c("i", { staticClass: "fa fa-star" }),
-                _c("i", { staticClass: "fa fa-star" }),
-                _c("i", { staticClass: "fa fa-star" }),
-                _vm._v(" 01")
-              ])
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("a", [
-                _vm._v("2 Star "),
-                _c("i", { staticClass: "fa fa-star" }),
-                _c("i", { staticClass: "fa fa-star" }),
-                _c("i", { staticClass: "fa fa-star" }),
-                _c("i", { staticClass: "fa fa-star" }),
-                _c("i", { staticClass: "fa fa-star" }),
-                _vm._v(" 01")
-              ])
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("a", [
-                _vm._v("1 Star "),
-                _c("i", { staticClass: "fa fa-star" }),
-                _c("i", { staticClass: "fa fa-star" }),
-                _c("i", { staticClass: "fa fa-star" }),
-                _c("i", { staticClass: "fa fa-star" }),
-                _c("i", { staticClass: "fa fa-star" }),
-                _vm._v(" 01")
-              ])
+    return _c("div", { staticClass: "col-6" }, [
+      _c("div", { staticClass: "rating_list" }, [
+        _c("h3", [_vm._v("Based on 3 Reviews")]),
+        _vm._v(" "),
+        _c("ul", { staticClass: "list" }, [
+          _c("li", [
+            _c("a", [
+              _vm._v("5 Star "),
+              _c("i", { staticClass: "fa fa-star" }),
+              _c("i", { staticClass: "fa fa-star" }),
+              _c("i", { staticClass: "fa fa-star" }),
+              _c("i", { staticClass: "fa fa-star" }),
+              _c("i", { staticClass: "fa fa-star" })
             ])
+          ]),
+          _vm._v(" "),
+          _c("li", [
+            _c("a", [
+              _vm._v("4 Star "),
+              _c("i", { staticClass: "fa fa-star" }),
+              _c("i", { staticClass: "fa fa-star" }),
+              _c("i", { staticClass: "fa fa-star" }),
+              _c("i", { staticClass: "fa fa-star" })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("li", [
+            _c("a", [
+              _vm._v("3 Star "),
+              _c("i", { staticClass: "fa fa-star" }),
+              _c("i", { staticClass: "fa fa-star" }),
+              _c("i", { staticClass: "fa fa-star" })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("li", [
+            _c("a", [
+              _vm._v("2 Star "),
+              _c("i", { staticClass: "fa fa-star" }),
+              _c("i", { staticClass: "fa fa-star" })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("li", [
+            _c("a", [_vm._v("1 Star "), _c("i", { staticClass: "fa fa-star" })])
           ])
         ])
       ])
