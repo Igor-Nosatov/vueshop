@@ -3807,13 +3807,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     this.fetchProducts();
@@ -3832,8 +3825,7 @@ __webpack_require__.r(__webpack_exports__);
       sort: '',
       minPrice: 0,
       maxPrice: 300,
-      search: '',
-      errors: []
+      search: ''
     };
   },
   methods: {
@@ -3876,26 +3868,20 @@ __webpack_require__.r(__webpack_exports__);
     addToCart: function addToCart(product) {
       var _this2 = this;
 
-      this.errors = [];
-
-      if (product.qty > 0) {
-        axios.post('/api/cart/add', {
-          name: product.name,
-          image: product.image,
-          price: product.price,
-          qty: product.qty
-        }).then(function (response) {
-          console.log(response);
-          _this2.name = '';
-          _this2.image = '';
-          _this2.price = '';
-          _this2.qty = '';
-        })["catch"](function (error) {
-          console.log(error);
-        });
-      } else {
-        this.errors.push('Требуется указать количество товара');
-      }
+      axios.post('/api/cart/add', {
+        name: product.name,
+        image: product.image,
+        price: product.price,
+        qty: product.qty
+      }).then(function (response) {
+        console.log(response);
+        _this2.name = '';
+        _this2.image = '';
+        _this2.price = '';
+        _this2.qty = '';
+      })["catch"](function (error) {
+        console.log(error);
+      });
     },
     addWishlist: function addWishlist(product) {
       var _this3 = this;
@@ -44519,24 +44505,6 @@ var render = function() {
                           _c("div", { staticClass: "product-details" }, [
                             _c("h6", [_vm._v(_vm._s(product.name))]),
                             _vm._v(" "),
-                            _vm.errors.length
-                              ? _c("p", [
-                                  _c("b", [
-                                    _vm._v(
-                                      "Пожалуйста исправьте указанные ошибки:"
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "ul",
-                                    _vm._l(_vm.errors, function(error) {
-                                      return _c("li", [_vm._v(_vm._s(error))])
-                                    }),
-                                    0
-                                  )
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
                             _c("p", [
                               _vm._v("Quantity: "),
                               _c("input", {
@@ -44544,8 +44512,8 @@ var render = function() {
                                   {
                                     name: "model",
                                     rawName: "v-model",
-                                    value: _vm.qty,
-                                    expression: "qty"
+                                    value: product.qty,
+                                    expression: "product.qty"
                                   }
                                 ],
                                 attrs: {
@@ -44555,13 +44523,17 @@ var render = function() {
                                   max: "25",
                                   required: ""
                                 },
-                                domProps: { value: _vm.qty },
+                                domProps: { value: product.qty },
                                 on: {
                                   input: function($event) {
                                     if ($event.target.composing) {
                                       return
                                     }
-                                    _vm.qty = $event.target.value
+                                    _vm.$set(
+                                      product,
+                                      "qty",
+                                      $event.target.value
+                                    )
                                   }
                                 }
                               })

@@ -100,18 +100,12 @@
                     <div class="row">
                         <div class="col-lg-4 col-md-6" v-for="(product, index) in displayProducts" @key="index">
                             <div class="single-product">
-
                                     <router-link :to="{ path: '/product/'+product.id}">
                                         <img :src="product.image" :alt="product.name" class="img-fluid">
                                     </router-link>
                                     <div class="product-details">
                                         <h6>{{ product.name }}</h6>
-
-                                        <p>Quantity: <input type="number" v-model="qty" value="default" min="1" max="25" required /></p>
-                                        
-
-
-
+                                        <p>Quantity: <input type="number" v-model="product.qty" value="default" min="1" max="25" required /></p>
                                         <div class="price">
                                             <h6>${{ product.price }}</h6>
                                             <h6 class="l-through">${{ product.old_price }}</h6>
@@ -188,8 +182,7 @@ export default {
             sort: '',
             minPrice: 0,
             maxPrice: 300,
-            search: '',
-            errors: []
+            search: ''
         }
     },
     methods: {
