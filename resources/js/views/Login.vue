@@ -79,15 +79,15 @@
 												let user = response.data.user
 												let is_admin = user.is_admin
 
-												localStorage.setItem('bigStore.user', JSON.stringify(user))
-												localStorage.setItem('bigStore.jwt', response.data.token)
+												localStorage.setItem('vueShop.user', JSON.stringify(user))
+												localStorage.setItem('vueShop.jwt', response.data.token)
 
-												if (localStorage.getItem('bigStore.jwt') != null) {
+												if (localStorage.getItem('vueShop.jwt') != null) {
 														this.$emit('loggedIn')
 														if (this.$route.params.nextUrl != null) {
 																this.$router.push(this.$route.params.nextUrl)
 														} else {
-																this.$router.push((is_admin == 1 ? 'admin' : 'dashboard'))
+																this.$router.push((is_admin == 1 ? 'admin' : 'shop'))
 														}
 												}
 										});

@@ -20,6 +20,37 @@ const router = new VueRouter({
     routes: Router
 })
 
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    if (localStorage.getItem('jwt') == null) {
+      next({
+        path: '/login',
+        params: { nextUrl: to.fullPath }
+      })
+    } else {
+      let user = JSON.parse(localStorage.getItem('user'))
+      if(to.matched.some(record => record.meta.is_admin)) {
+        if(user.is_admin == 1){
+            next()
+        }
+        else{
+            next({ name: 'shop'})
+        }
+      }
+      else if(to.matched.some(record => record.meta.is_user)) {
+        if(user.is_admin == 0){
+            next()
+        }
+        else{
+            next({ name: 'admin'})
+        }
+      }
+      next()
+    }
+  } else {
+    next()
+  }
+})
 
 const app = new Vue(Vue.util.extend({
     router

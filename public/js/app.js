@@ -1824,7 +1824,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       name: null,
       user_type: 0,
-      isLoggedIn: localStorage.getItem('bigStore.jwt') != null
+      isLoggedIn: localStorage.getItem('vueShop.jwt') != null
     };
   },
   mounted: function mounted() {
@@ -1833,18 +1833,18 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     setDefaults: function setDefaults() {
       if (this.isLoggedIn) {
-        var user = JSON.parse(localStorage.getItem('bigStore.user'));
+        var user = JSON.parse(localStorage.getItem('vueShop.user'));
         this.name = user.name;
         this.user_type = user.is_admin;
       }
     },
     change: function change() {
-      this.isLoggedIn = localStorage.getItem('bigStore.jwt') != null;
+      this.isLoggedIn = localStorage.getItem('vueShop.jwt') != null;
       this.setDefaults();
     },
     logout: function logout() {
-      localStorage.removeItem('bigStore.jwt');
-      localStorage.removeItem('bigStore.user');
+      localStorage.removeItem('vueShop.jwt');
+      localStorage.removeItem('vueShop.user');
       this.change();
       this.$router.push('/');
     }
@@ -2592,16 +2592,16 @@ __webpack_require__.r(__webpack_exports__);
         }).then(function (response) {
           var user = response.data.user;
           var is_admin = user.is_admin;
-          localStorage.setItem('bigStore.user', JSON.stringify(user));
-          localStorage.setItem('bigStore.jwt', response.data.token);
+          localStorage.setItem('vueShop.user', JSON.stringify(user));
+          localStorage.setItem('vueShop.jwt', response.data.token);
 
-          if (localStorage.getItem('bigStore.jwt') != null) {
+          if (localStorage.getItem('vueShop.jwt') != null) {
             _this.$emit('loggedIn');
 
             if (_this.$route.params.nextUrl != null) {
               _this.$router.push(_this.$route.params.nextUrl);
             } else {
-              _this.$router.push(is_admin == 1 ? 'admin' : 'dashboard');
+              _this.$router.push(is_admin == 1 ? 'admin' : 'shop');
             }
           }
         });
@@ -2727,10 +2727,10 @@ __webpack_require__.r(__webpack_exports__);
         c_password: c_password
       }).then(function (response) {
         var data = response.data;
-        localStorage.setItem('bigStore.user', JSON.stringify(data.user));
-        localStorage.setItem('bigStore.jwt', data.token);
+        localStorage.setItem('vueShop.user', JSON.stringify(data.user));
+        localStorage.setItem('vueShop.jwt', data.token);
 
-        if (localStorage.getItem('bigStore.jwt') != null) {
+        if (localStorage.getItem('vueShop.jwt') != null) {
           _this.$emit('loggedIn');
 
           var nextUrl = _this.$route.params.nextUrl;
@@ -61071,6 +61071,48 @@ Vue.component('footer-component', __webpack_require__(/*! ./components/FooterCom
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
   mode: 'history',
   routes: _routes_routing_js__WEBPACK_IMPORTED_MODULE_4__["default"]
+});
+router.beforeEach(function (to, from, next) {
+  if (to.matched.some(function (record) {
+    return record.meta.requiresAuth;
+  })) {
+    if (localStorage.getItem('jwt') == null) {
+      next({
+        path: '/login',
+        params: {
+          nextUrl: to.fullPath
+        }
+      });
+    } else {
+      var user = JSON.parse(localStorage.getItem('user'));
+
+      if (to.matched.some(function (record) {
+        return record.meta.is_admin;
+      })) {
+        if (user.is_admin == 1) {
+          next();
+        } else {
+          next({
+            name: 'shop'
+          });
+        }
+      } else if (to.matched.some(function (record) {
+        return record.meta.is_user;
+      })) {
+        if (user.is_admin == 0) {
+          next();
+        } else {
+          next({
+            name: 'admin'
+          });
+        }
+      }
+
+      next();
+    }
+  } else {
+    next();
+  }
 });
 var app = new Vue(Vue.util.extend({
   router: router

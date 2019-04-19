@@ -9,7 +9,7 @@
 
     class UserController extends Controller
     {
-        
+
         public function login(Request $request)
         {
             $status = 401;
@@ -19,7 +19,7 @@
                 $status = 200;
                 $response = [
                     'user' => Auth::user(),
-                    'token' => Auth::user()->createToken('bigStore')->accessToken,
+                    'token' => Auth::user()->createToken('vueShop')->accessToken,
                 ];
             }
 
@@ -47,7 +47,7 @@
 
             return response()->json([
                 'user' => $user,
-                'token' => $user->createToken('bigStore')->accessToken,
+                'token' => $user->createToken('vueShop')->accessToken,
             ]);
         }
 
