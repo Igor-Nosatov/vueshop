@@ -108,7 +108,6 @@
                                         <p>Quantity: <input type="number" v-model="product.qty" value="default" min="1" max="25" required /></p>
                                         <div class="price">
                                             <h6>${{ product.price }}</h6>
-                                            <h6 class="l-through">${{ product.old_price }}</h6>
                                         </div>
                                         <div class="prd-bottom">
                                             <a class="social-info">

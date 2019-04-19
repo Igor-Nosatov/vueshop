@@ -46,29 +46,20 @@ const routes = [{
         path: '/cart',
         name: 'cart',
         component: Cart,
-        meta: {
-                requiresAuth: true,
-                is_user : true
-            }
+
     },
     {
         path: '/wishlist',
         name: 'wishlist',
         component: Wishlist,
-        meta: {
-                requiresAuth: true,
-                is_user : true
-            }
+
 
     },
     {
         path: '/checkout',
         name: 'checkout',
         component: Checkout,
-        meta: {
-                requiresAuth: true,
-                is_user : true
-            }
+
 
     },
     {
@@ -80,28 +71,13 @@ const routes = [{
         path: '/dashboard',
         name: 'userboard',
         component: UserBoard,
-        meta: {
-            requiresAuth: true,
-            is_user: true
-        }
-    },
-    {
-        path: '/admin/:page',
-        name: 'admin-pages',
-        component: Admin,
-        meta: {
-            requiresAuth: true,
-            is_admin: true
-        }
+
     },
     {
         path: '/admin',
         name: 'admin',
         component: Admin,
-        meta: {
-            requiresAuth: true,
-            is_admin: true
-        }
+
     }
 ]
 export default routes
