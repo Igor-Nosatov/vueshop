@@ -2,38 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Order;
 use Illuminate\Http\Request;
+use App\Repositories\OrderRepository;
 
 class OrderController extends Controller
 {
+    protected $order;
 
-  public function index()
-  {
-    $data['order'] = Order::query()->get();
-    return response()->json($data,200);
-  }
-
-  public function store(Request $request)
+    public function __construct(OrderRepository $order)
     {
-       $order = new Order([
-        'name' => $request->get('name'),
-        'price' => $request->get('price'),
-        'qty' => $request->get('qty')
-      ]);
+        $this->order = $order;
+    }
 
-      $order->save();
+    public function index()
+    {
+        $data['order'] = $this->order->getOrder();
+        return response()->json($data, 200);
+    }
 
+    public function store(Request $request)
+    {
+      $order = $this->order->createOrder($request->all());
       return response()->json('success');
     }
 
     public function delete($id)
     {
-      $order = Order::find($id);
-
-      $order->delete();
-
-      return response()->json('successfully deleted');
+        $order = $this->order->deleteOrder($id);
+        return response()->json('success');
     }
-
 }

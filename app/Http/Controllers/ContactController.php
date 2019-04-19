@@ -2,22 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Contact;
 use Illuminate\Http\Request;
+use App\Repositories\ContactRepository;
 
 class ContactController extends Controller
 {
-   public function store(Request $request)
- {
-   $contact = new Contact([
-    'name' => $request->get('name'),
-    'email' => $request->get('email'),
-    'subject' => $request->get('subject'),
-    'message' => $request->get('message')
-  ]);
+  public function __construct(ContactRepository $contact)
+  {
+      $this->contact = $contact;
+  }
 
-  $contact->save();
+  public function store(Request $request)
+  {
+    $this->contact->createContact($request->all());
+    return response()->json('success');
+  }
 
-  return response()->json('success');
- }
 }
