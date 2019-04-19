@@ -34,13 +34,56 @@
                                 </router-link>
                             </li>
                         </ul>
-
+                        <ul class="navbar-nav ml-auto">
+                            <router-link :to="{ name: 'login' }" class="nav-link" v-if="!isLoggedIn">Login</router-link>
+                            <router-link :to="{ name: 'register' }" class="nav-link" v-if="!isLoggedIn">Register</router-link>
+                            <span v-if="isLoggedIn">
+                                <router-link :to="{ name: 'userboard' }" class="nav-link" v-if="user_type == 0"> Hi, {{name}}</router-link>
+                                <router-link :to="{ name: 'admin' }" class="nav-link" v-if="user_type == 1"> Hi, {{name}}</router-link>
+                            </span>
+                            <li class="nav-link" v-if="isLoggedIn" @click="logout"> Logout</li>
+                        </ul>
                     </div>
                 </div>
             </nav>
         </div>
     </header>
-    <router-view :key="$route.fullPath" ></router-view>
+    <router-view :key="$route.fullPath" @loggedIn="change" ></router-view>
     <footer-component></footer-component>
 </div>
 </template>
+
+
+<script>
+    export default {
+        data() {
+            return {
+                name: null,
+                user_type: 0,
+                isLoggedIn: localStorage.getItem('bigStore.jwt') != null
+            }
+        },
+        mounted() {
+            this.setDefaults()
+        },
+        methods : {
+            setDefaults() {
+                if (this.isLoggedIn) {
+                    let user = JSON.parse(localStorage.getItem('bigStore.user'))
+                    this.name = user.name
+                    this.user_type = user.is_admin
+                }
+            },
+            change() {
+                this.isLoggedIn = localStorage.getItem('bigStore.jwt') != null
+                this.setDefaults()
+            },
+            logout(){
+                localStorage.removeItem('bigStore.jwt')
+                localStorage.removeItem('bigStore.user')
+                this.change()
+                this.$router.push('/')
+            }
+        }
+    }
+    </script>
