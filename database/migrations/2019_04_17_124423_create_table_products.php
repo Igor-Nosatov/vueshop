@@ -20,8 +20,7 @@ class CreateTableProducts extends Migration
           $table->text('description');
           $table->string('image');
           $table->timestamps();
-          $table->unsignedInteger('category_id')->nullable();
-          $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+
           $table->unsignedInteger('brand_id')->nullable();
           $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
           $table->unsignedInteger('color_id')->nullable();

@@ -4,7 +4,6 @@ use Illuminate\Database\Seeder;
 
 class ProductTableSeeder extends Seeder
 {
-
     public function run()
     {
       DB::table('products')->insert([
