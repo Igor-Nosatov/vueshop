@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Repositories;
-
 use App\Contact;
 
 class ContactRepository
@@ -10,7 +8,6 @@ class ContactRepository
   {
       $this->contact = $contact;
   }
-
   public function createContact(array $data):Contact
   {
       return $this->contact->create($data);
