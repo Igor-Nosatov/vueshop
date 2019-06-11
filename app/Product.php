@@ -1,12 +1,9 @@
 <?php
-
 namespace App;
-
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-
   protected $fillable = ['name', 'price',
      'description', 'image',
      'category_id','brand_id', 'color_id'];
@@ -23,7 +20,6 @@ class Product extends Model
   {
     return $this->belongsTo('App\Color', 'color_id');
   }
-
   public function review()
   {
     return $this->hasMany('App\Review', 'review_id');
@@ -33,5 +29,4 @@ class Product extends Model
   {
     return $this->hasMany('App\Comment');
   }
-
 }
