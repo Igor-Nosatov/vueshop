@@ -1,12 +1,9 @@
 <?php
-
 namespace App\Repositories;
-
 use App\Cart;
 
 class CartRepository
 {
-
     public function __construct(Cart $cart)
     {
         $this->cart = $cart;
@@ -15,12 +12,10 @@ class CartRepository
     {
         return $this->cart->get();
     }
-
     public function createCart(array $data) : Cart
-	  {
+	{
 		    return $this->cart->create($data);
   	}
-
     public function deleteCart($id) : bool
 	  {
 		    return $this->cart->find($id)->delete();
