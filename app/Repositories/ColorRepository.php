@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Repositories;
-
 use App\Color;
 
 class ColorRepository
