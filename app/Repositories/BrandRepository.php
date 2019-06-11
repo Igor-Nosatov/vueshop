@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Repositories;
-
 use App\Brand;
 
 class BrandRepository
@@ -10,7 +8,6 @@ class BrandRepository
     {
       $this->brand = $brand;
     }
-
   public function getBrand()
    {
       return $this->brand->get();
